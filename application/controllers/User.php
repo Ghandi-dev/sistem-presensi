@@ -111,6 +111,14 @@ class User extends CI_Controller
         $this->load->view('user/kehadiran/index', $data);
     }
 
+    public function profile()
+    {
+        $data['title'] = 'Profile';
+        $data['pegawai'] = $this->Pegawai_Model->get_by_id($this->session->userdata('id_pegawai'));
+        $data['user'] = $this->User_Model->get_by_id_pegawai($this->session->userdata('id_pegawai'));
+        $this->load->view('user/profile/index', $data);
+    }
+
     public function check_username()
     {
         $username = $this->input->post('username');

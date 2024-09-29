@@ -2,15 +2,24 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view('admin/templates/head')?>
+    <?php $this->load->view('user/templates/head')?>
+    <style>
+    .page-item.active .page-link {
+        color: #fff;
+        border: none;
+        /* Tambahkan gradien latar belakang */
+        background-image: var(--gradient-<?php echo $this->session->userdata('sidebar_color') ?>);
+        /* Contoh gradien dari warna utama ke hitam */
+    }
+    </style>
 </head>
 
 <body class="g-sidenav-show bg-gray-200">
-    <?php $this->load->view('admin/templates/sidebar')?>
+    <?php $this->load->view('user/templates/sidebar')?>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg mb-5">
+        <!-- Navbar -->
         <div class="container-fluid px-4">
-            <?php $this->load->view('admin/templates/navbar')?>
-            <!-- Content -->
+            <?php $this->load->view('user/templates/navbar')?>
             <div class="page-header min-height-200 border-radius-xl mt-2"
                 style="background-image: url('<?php echo base_url('assets/img/curved0.jpg') ?>'); background-position-y: 50%;">
                 <span class="mask bg-gradient-primary opacity-6"></span>
@@ -20,7 +29,7 @@
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
                             <img src="<?php echo base_url('assets/img/foto/') . $pegawai->foto ?>" alt="profile_image"
-                                class="w-100 border-radius-lg shadow-sm">
+                                class="w-100 h-100 border-radius-lg shadow-sm" style="object-fit: cover;">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -68,9 +77,6 @@
                                     officiis modi, ducimus sunt praesentium veniam neque maxime aut quibusdam velit.
                                     Maiores cumque necessitatibus in porro sunt tenetur.</li>
                             </ul>
-                            <a href="<?php echo base_url('admin/pegawai') ?>">
-                                <div class="btn btn-round bg-gradient-secondary btn-lg mb-0 w-100">Kembali</div>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -182,38 +188,10 @@
                 </div>
             </div>
         </div>
-        <!-- Navbar -->
-        <!-- Footer -->
-        <?php $this->load->view('admin/templates/footer')?>
+        <?php $this->load->view('user/templates/footer')?>
     </main>
-    <?php $this->load->view('admin/templates/script')?>
-    <script>
-    document.getElementById('passwordSubmitButton').addEventListener('click', function() {
-        // Ambil elemen form berdasarkan ID
-        var form = document.getElementById('formUpdatePassword');
-
-        if (form.checkValidity()) {
-            form.submit();
-        } else {
-            event.preventDefault(); // Prevent form submission
-            event.stopPropagation(); // Stop propagation
-            form.reportValidity(); // Show validation errors
-        }
-    });
-    document.getElementById('submitButton').addEventListener('click', function() {
-        // Ambil elemen form berdasarkan ID
-        var form = document.getElementById('formUpdatePegawai');
-
-        if (form.checkValidity()) {
-            form.submit();
-        } else {
-            event.preventDefault(); // Prevent form submission
-            event.stopPropagation(); // Stop propagation
-            form.reportValidity(); // Show validation errors
-        }
-    });
-    </script>
-    <?php $this->load->view('admin/templates/alert')?>
+    <?php $this->load->view('user/templates/script')?>
+    <?php $this->load->view('user/templates/data-table')?>
 </body>
 
 </html>
