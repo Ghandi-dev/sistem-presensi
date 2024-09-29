@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view('templates/head')?>
+    <?php $this->load->view('admin/templates/head')?>
     <style>
     .page-item.active .page-link {
         color: #fff;
@@ -16,18 +16,18 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-200">
-    <?php $this->load->view('templates/sidebar')?>
+    <?php $this->load->view('admin/templates/sidebar')?>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg mb-5">
         <div class="container-fluid px-4 ">
-            <?php $this->load->view('templates/navbar')?>
+            <?php $this->load->view('admin/templates/navbar')?>
             <!-- Content -->
             <div class="card p-3 mt-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal"
                             data-bs-target="#modal-form"><i class="fa fa-plus">&nbsp;</i>Tambah</button>
-                        <button type="button" class="btn bg-gradient-primary"><i
-                                class="fa fa-print">&nbsp;</i>Print</button>
+                        <!-- <button type="button" class="btn bg-gradient-primary"><i
+                                class="fa fa-print">&nbsp;</i>Print</button> -->
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -91,15 +91,15 @@
             </div>
 
 
-            <?php $this->load->view('templates/footer')?>
+            <?php $this->load->view('admin/templates/footer')?>
         </div>
         <!-- Navbar -->
         <!-- Footer -->
     </main>
-    <?php $this->load->view('templates/script')?>
+    <?php $this->load->view('admin/templates/script')?>
     <?php $this->load->view('admin/pegawai/modal')?>
-    <?php $this->load->view('templates/data-table')?>
-    <?php $this->load->view('templates/alert')?>
+    <?php $this->load->view('admin/templates/data-table')?>
+    <?php $this->load->view('admin/templates/alert')?>
 
 </body>
 

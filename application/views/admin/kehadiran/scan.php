@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view('templates/head')?>
+    <?php $this->load->view('admin/templates/head')?>
     <style>
     #reader__dashboard_section {
         background-color: #f9f9f9;
@@ -66,7 +66,8 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 text-center mx-auto">
-                        <h1 class="text-white mb-2 mt-6">Selamat Datang!</h1>
+                        <h1 class="text-white mt-6">Selamat Datang!</h1>
+                        <h1 id="clock" class="text-white mb-2"></h1>
                     </div>
                 </div>
             </div>
@@ -93,16 +94,16 @@
     </section>
 
 
-    <?php $this->load->view('templates/footer')?>
+    <?php $this->load->view('admin/templates/footer')?>
     </div>
     <!-- Navbar -->
     <!-- Footer -->
     </main>
-    <?php $this->load->view('templates/script')?>
+    <?php $this->load->view('admin/templates/script')?>
     <script src=" <?php echo base_url() ?>assets/js/html5-qrcode.min.js">
     </script>
-    <?php $this->load->view('templates/data-table')?>
-    <?php $this->load->view('templates/alert')?>
+    <?php $this->load->view('admin/templates/data-table')?>
+    <?php $this->load->view('admin/templates/alert')?>
 
     <script>
     let scanEnabled = true; // variabel untuk mengontrol apakah pemindaian diperbolehkan
@@ -165,6 +166,22 @@
 
         html5QrcodeScanner.render(onScanSuccess, onScanError);
     });
+
+    function updateClock() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const currentTime = `${hours}:${minutes}:${seconds}`;
+
+        document.getElementById('clock').textContent = currentTime;
+    }
+
+    // Perbarui jam setiap detik
+    setInterval(updateClock, 1000);
+
+    // Setel jam saat pertama kali halaman dimuat
+    updateClock();
     </script>
 
 </body>

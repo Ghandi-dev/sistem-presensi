@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $this->load->view('templates/head')?>
+    <?php $this->load->view('admin/templates/head')?>
     <style>
     .page-item.active .page-link {
         color: #fff;
@@ -16,24 +16,28 @@
 </head>
 
 <body class="g-sidenav-show bg-gray-200">
-    <?php $this->load->view('templates/sidebar')?>
+    <?php $this->load->view('admin/templates/sidebar')?>
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg mb-5">
         <div class="container-fluid px-4 ">
-            <?php $this->load->view('templates/navbar')?>
+            <?php $this->load->view('admin/templates/navbar')?>
             <!-- Content -->
             <div class="card p-3 mt-3">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
+                <div class="row justify-content-between align-items-end">
+                    <div class="col-sm-12 col-lg-6 d-flex justify-content-center justify-content-lg-start gap-2">
                         <button type="button" class="btn bg-gradient-info" data-bs-toggle="modal"
                             data-bs-target="#modal-status"><i class="fa fa-plus">&nbsp;</i>Tambah</button>
-                        <button type="button" class="btn bg-gradient-primary"><i
+                        <button id="btnPrint" type="button" class="btn bg-gradient-primary"><i
                                 class="fa fa-print">&nbsp;</i>Print</button>
-                        <!-- <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal"
-                            data-bs-target="#modal-scan"><i class="fa fa-print">&nbsp;</i>Print</button> -->
                         <a href="<?php echo base_url('kehadiran/scan') ?>">
                             <button type="button" class="btn bg-gradient-dark" data-bs-toggle="modal"
-                                data-bs-target="#modal-scan"><i class="fa fa-qrcode">&nbsp;</i>Scan qr code</button>
+                                data-bs-target="#modal-scan"><i class="fa fa-qrcode">&nbsp;</i>Scan</button>
                         </a>
+                    </div>
+                    <div
+                        class="col-sm-12 col-lg-6 d-flex flex-column flex-sm-row justify-content-center justify-content-lg-end align-items-center gap-2 mb-3">
+                        <h5 class="mb-0" style="flex-shrink: 0;">Filter data:</h5>
+                        <input type="date" id="dateInput" class="form-control w-100 w-sm-auto" placeholder="Tahun mulai"
+                            value="<?php echo $date ?>">
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -64,7 +68,7 @@
                         </thead>
                         <tbody>
                             <?php $no = 1;
-foreach ($absensi as $a): ?>
+foreach ($kehadiran as $a): ?>
                             <tr>
                                 <td class="text-center">
                                     <?php echo $no++ ?>
@@ -97,17 +101,16 @@ foreach ($absensi as $a): ?>
             </div>
 
 
-            <?php $this->load->view('templates/footer')?>
+            <?php $this->load->view('admin/templates/footer')?>
         </div>
         <!-- Navbar -->
         <!-- Footer -->
     </main>
-    <?php $this->load->view('templates/script')?>
+    <?php $this->load->view('admin/templates/script')?>
     <script src="<?php echo base_url() ?>assets/js/html5-qrcode.min.js"></script>
-    <?php $this->load->view('templates/data-table')?>
-    <?php $this->load->view('templates/alert')?>
-    <?php $this->load->view('admin/absensi/modal')?>
-    <?php $this->load->view('admin/absensi/modal-scan')?>
+    <?php $this->load->view('admin/templates/data-table')?>
+    <?php $this->load->view('admin/templates/alert')?>
+    <?php $this->load->view('admin/kehadiran/modal')?>
 
     <script>
     function changeStatus(element) {
@@ -119,6 +122,21 @@ foreach ($absensi as $a): ?>
         }
 
     };
+    let dateInput = document.getElementById("dateInput");
+
+    dateInput.addEventListener("change", function() {
+        let dateValue = dateInput.value;
+        window.location.href = "<?php echo base_url('admin/kehadiran/'); ?>" + dateValue;
+    });
+
+    $('#btnPrint').on('click', function() {
+        let dateInput = document.getElementById("dateInput"); // Pastikan elemen input sudah didefinisikan
+
+        console.log(dateInput.value);
+
+        // Gunakan window.open untuk membuka di tab baru
+        window.open("<?php echo base_url('admin/print_kehadiran/') ?>" + dateInput.value, '_blank');
+    });
     </script>
 
 </body>

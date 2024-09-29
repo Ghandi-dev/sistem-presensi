@@ -24,13 +24,39 @@ class Admin extends CI_Controller
 
     public function index()
     {
+        date_default_timezone_set('Asia/Jakarta'); // Set timezone to Jakarta
+        $current_date = date('Y-m-d'); // Ambil tanggal sekarang
         $data['title'] = 'Dashboard';
+        $data['jumlah_pegawai'] = count($this->Pegawai_Model->get_all());
+        $kehadiran_hari_ini = $this->Kehadiran_Model->get_by_date($current_date);
+
+        // Filter kehadiran yang statusnya "Hadir" atau "Telat"
+        $kehadiran_valid = array_filter($kehadiran_hari_ini, function ($kehadiran) {
+            return $kehadiran['status'] === 'HADIR' || $kehadiran['status'] === 'TELAT';
+        });
+
+        $kehadiran_tidak_valid = array_filter($kehadiran_hari_ini, function ($kehadiran) {
+            return $kehadiran['status'] !== 'HADIR' && $kehadiran['status'] !== 'TELAT'; // Menggunakan AND
+        });
+
+        // Hitung jumlah data kehadiran yang valid
+        $data['jumlah_kehadiran_hari_ini'] = count($kehadiran_valid);
+        $data['jumlah_tidak_hadir_hari_ini'] = count($kehadiran_tidak_valid);
+
+        $data['tidak_hadir'] = $this->Kehadiran_Model->get_tidak_hadir_today($current_date);
+        $data['belum_presensi'] = $this->Pegawai_Model->get_pegawai_belum_presensi($current_date);
         $this->load->view('admin/dashboard/index', $data);
     }
-    public function absensi()
+    public function kehadiran($date = null)
     {
-        $data['title'] = 'Absensi';
-        $data['absensi'] = $this->Kehadiran_Model->get_all();
+        date_default_timezone_set('Asia/Jakarta'); // Set timezone to Jakarta
+        $current_date = date('Y-m-d'); // Ambil tanggal sekarang
+        if ($date == null) {
+            $date = $current_date;
+        }
+        $data['title'] = 'Kehadiran';
+        $data['pegawai'] = $this->Pegawai_Model->get_pegawai_belum_presensi($current_date);
+        $data['kehadiran'] = $this->Kehadiran_Model->get_by_date($date);
 
         // Daftar status yang valid
         $validStatuses = [
@@ -41,7 +67,7 @@ class Admin extends CI_Controller
         ];
 
         // Mapping status ke badge color dengan default untuk status tidak dikenali
-        $data['absensi'] = array_map(function ($item) use ($validStatuses) {
+        $data['kehadiran'] = array_map(function ($item) use ($validStatuses) {
             // Tentukan warna berdasarkan status
             $status = strtoupper($item['status']); // Mengubah status menjadi huruf kapital untuk pencocokan
             if (array_key_exists($status, $validStatuses)) {
@@ -50,9 +76,11 @@ class Admin extends CI_Controller
                 $item['badge'] = 'bg-gradient-secondary'; // abu-abu untuk status yang tidak dikenali
             }
             return $item;
-        }, $data['absensi']);
+        }, $data['kehadiran']);
 
-        $this->load->view('admin/absensi/index', $data);
+        $data['date'] = $date;
+
+        $this->load->view('admin/kehadiran/index', $data);
 
     }
 
@@ -99,4 +127,36 @@ class Admin extends CI_Controller
         redirect('admin/pegawai_edit/' . $user['id_pegawai']);
 
     }
+
+    public function print_kehadiran($date = null)
+    {
+        date_default_timezone_set('Asia/Jakarta'); // Set timezone ke Jakarta
+        $current_date = date('Y-m-d'); // Ambil tanggal sekarang
+        if ($date == null) {
+            $date = $current_date;
+        }
+
+        // Array untuk menerjemahkan nama hari ke Bahasa Indonesia
+        $days = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        // Ambil nama hari dalam Bahasa Inggris, lalu konversikan ke Bahasa Indonesia
+        $day_in_english = date('l', strtotime($date));
+        $hari = $days[$day_in_english];
+
+        $data['kepala_desa'] = $this->Pegawai_Model->get_by_jabatan('kepala desa');
+        $data['title'] = 'Print Kehadiran';
+        $data['kehadiran'] = $this->Kehadiran_Model->get_by_date($date);
+        $data['date'] = $date;
+        $data['hari'] = $hari; // Kirim nama hari dalam Bahasa Indonesia ke view
+        $this->load->view('admin/kehadiran/print', $data);
+    }
+
 }

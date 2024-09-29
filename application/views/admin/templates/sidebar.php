@@ -4,10 +4,9 @@
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html"
-            target="_blank">
+        <a class="navbar-brand m-0" href="<?php echo base_url('admin') ?>">
             <img src="<?php echo base_url() ?>assets/img/logo-desa-cigelam.png ?>">
-            <span class="ms-1 font-weight-bold">Sistem Absensi</span>
+            <span class="ms-1 font-weight-bold">Sistem Presensi</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -24,13 +23,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php echo $title === 'Absensi' ? 'active' : '' ?>"
-                    href="<?php echo base_url('admin/absensi') ?>">
+                <a class="nav-link <?php echo $title === 'Kehadiran' ? 'active' : '' ?>"
+                    href="<?php echo base_url('admin/kehadiran') ?>">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 "></i>
                     </div>
-                    <span class="nav-link-text ms-1">Data Absensi</span>
+                    <span class="nav-link-text ms-1">Data Kehadiran</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -38,7 +37,7 @@
                     href="<?php echo base_url('admin/pegawai') ?>">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fa fa-user"></i>
+                        <i class="fa fa-users"></i>
                     </div>
                     <span class="nav-link-text ms-1">Data Pegawai</span>
                 </a>

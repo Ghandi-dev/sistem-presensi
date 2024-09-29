@@ -9,6 +9,25 @@ class Pegawai_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
+    public function get_pegawai_belum_presensi($current_date)
+    {
+
+        // Query untuk menampilkan pegawai yang belum absen hari ini
+        $this->db->select('tb_pegawai.*');
+        $this->db->from('tb_pegawai');
+        $this->db->join('tb_absensi', 'tb_pegawai.id = tb_absensi.id_pegawai AND tb_absensi.tanggal = "' . $current_date . '"', 'left');
+        $this->db->where('tb_absensi.id_pegawai IS NULL'); // Pegawai yang tidak ditemukan di tabel absensi untuk hari ini
+        $this->db->where('tb_pegawai.nama <>', 'admin'); // Filter pegawai yang bukan admin
+
+        return $this->db->get()->result();
+    }
+
+    public function get_by_jabatan($jabatan)
+    {
+        $this->db->like('LOWER(jabatan)', strtolower($jabatan));
+        return $this->db->get($this->table)->row();
+    }
+
     public function get_by_id($id)
     {
         return $this->db->get_where($this->table, ['id' => $id])->row();

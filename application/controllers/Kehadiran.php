@@ -31,7 +31,7 @@ class Kehadiran extends CI_Controller
     public function scan()
     {
         $data['title'] = 'Scan Kehadiran';
-        $this->load->view('admin/absensi/scan', $data);
+        $this->load->view('admin/kehadiran/scan', $data);
 
     }
 
@@ -50,37 +50,61 @@ class Kehadiran extends CI_Controller
         }
 
         // Cek apakah user sudah scan untuk absen masuk hari ini
-        $absen_today = $this->Kehadiran_Model->get_absen_today($user->id_pegawai, $current_date);
+        $kehadiran_today = $this->Kehadiran_Model->get_kehadiran_today($user->id_pegawai, $current_date);
 
-        if ($absen_today) {
+        if ($kehadiran_today) {
             // Jika sudah absen masuk, lakukan absensi pulang
-            if ($absen_today->waktu_pulang === '00:00:00') {
+            if ($kehadiran_today->waktu_pulang === '00:00:00') {
                 // Update absen sebagai waktu pulang
-                $data_absen_pulang = [
+                $data_kehadiran_pulang = [
                     'waktu_pulang' => $current_time,
                 ];
-                $this->Kehadiran_Model->update($absen_today->id, $data_absen_pulang);
+                $this->Kehadiran_Model->update($kehadiran_today->id, $data_kehadiran_pulang);
 
-                echo json_encode(['status' => 'success', 'message' => 'Absensi pulang berhasil!' . 'jam :' . $current_time]);
+                echo json_encode(['status' => 'success', 'message' => 'scan pulang berhasil!' . 'jam :' . $current_time]);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Anda sudah absen pulang hari ini.']);
+                echo json_encode(['status' => 'error', 'message' => 'Anda sudah scan pulang hari ini.']);
             }
         } else {
             // Jika belum absen hari ini, lakukan absensi masuk
-            $data_absen = [
+            $data_kehadiran = [
                 'id_pegawai' => $user->id_pegawai,
                 'tanggal' => $current_date,
                 'waktu_datang' => $current_time,
                 'status' => 'HADIR',
             ];
-            $this->Kehadiran_Model->insert($data_absen);
+            $this->Kehadiran_Model->insert($data_kehadiran);
 
-            echo json_encode(['status' => 'success', 'message' => 'Absensi masuk berhasil! ' . 'jam :' . $current_time]);
+            echo json_encode(['status' => 'success', 'message' => 'scan masuk berhasil! ' . 'jam :' . $current_time]);
         }
     }
 
-    // public function insert(){
-    //     $username = $this->post->('username');
-    //     $waktu = $this->post->('waktu');
-    // }
+    public function insert()
+    {
+
+        date_default_timezone_set('Asia/Jakarta'); // Set timezone to Jakarta
+        $current_date = date('Y-m-d'); // Ambil tanggal sekarang
+
+        $id_pegawai = $this->input->post('id_pegawai');
+        $keterangan = $this->input->post('keterangan');
+
+        // cek apakah data user sudah ada di hari ini
+        $kehadiran_today = $this->Kehadiran_Model->get_kehadiran_today($id_pegawai, $current_date);
+        if ($kehadiran_today) {
+            $this->session->set_flashdata('error', 'data kehadiran pegawai yang dipilih sudah ada untuk hari ini');
+            redirect('admin/kehadiran');
+            return;
+        }
+
+        $data_kehadiran = [
+            'id_pegawai' => $id_pegawai,
+            'tanggal' => $current_date,
+            'status' => $keterangan,
+        ];
+
+        $this->Kehadiran_Model->insert($data_kehadiran);
+        $this->session->set_flashdata('success', 'berhasil ditambahkan');
+        redirect('admin/kehadiran');
+
+    }
 }
