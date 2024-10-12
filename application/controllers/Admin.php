@@ -7,14 +7,11 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->session->set_userdata([
-            'username' => 'admin',
-            'jabatan' => 'kepala',
-            'foto' => 'default.jpg',
-        ]);
-        // if (!$this->session->userdata('is_login')) {
-        //     redirect('auth'); // Ganti dengan URL login yang sesuai
-        // }
+        if ($this->session->userdata('role') != "2") {
+            // $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk halaman ini.');
+            redirect('auth'); // Ganti dengan URL login yang sesuai
+        }
+
         // $this->load->model('Aset_Model');
         $this->load->model('Pegawai_Model');
         $this->load->model('Kehadiran_Model');

@@ -42,6 +42,17 @@
                     <span class="nav-link-text ms-1">Data Pegawai</span>
                 </a>
             </li>
+            <hr class="horizontal dark mt-0">
+            <li class="nav-item">
+                <a class="nav-link " href="<?php echo base_url('auth/logout') ?>">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa fa-sign-out"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Logout</span>
+                </a>
+            </li>
         </ul>
     </div>
+
 </aside>

@@ -7,10 +7,10 @@ class User extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->session->set_userdata([
-            'username' => 'admin',
-            'id_pegawai' => '26',
-        ]);
+        if ($this->session->userdata('role') != "1") {
+            // $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk halaman ini!');
+            redirect('auth');
+        }
         $this->load->model('User_Model');
         $this->load->model('Pegawai_Model');
         $this->load->model('Kehadiran_Model');
