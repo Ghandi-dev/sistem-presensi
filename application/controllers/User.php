@@ -11,9 +11,9 @@ class User extends CI_Controller
             // $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk halaman ini!');
             redirect('auth');
         }
-        $this->load->model('User_Model');
-        $this->load->model('Pegawai_Model');
-        $this->load->model('Kehadiran_Model');
+        $this->load->model('User_model');
+        $this->load->model('Pegawai_model');
+        $this->load->model('Kehadiran_model');
     }
 
     public function index()
@@ -38,7 +38,7 @@ class User extends CI_Controller
         $data['hari'] = $hari;
         $data['title'] = 'Dashboard';
 
-        $data['kehadiran'] = $this->Kehadiran_Model->get_by_pegawai($this->session->userdata('id_pegawai'));
+        $data['kehadiran'] = $this->Kehadiran_model->get_by_pegawai($this->session->userdata('id_pegawai'));
 
         $validStatuses = [
             'HADIR' => 'bg-gradient-success', // hijau
@@ -83,14 +83,14 @@ class User extends CI_Controller
     public function scan()
     {
         $data['title'] = 'Scan Kehadiran';
-        $data['pegawai'] = $this->Pegawai_Model->get_by_id($this->session->userdata('id_pegawai'));
+        $data['pegawai'] = $this->Pegawai_model->get_by_id($this->session->userdata('id_pegawai'));
         $this->load->view('user/scan', $data);
     }
 
     public function kehadiran()
     {
         $data['title'] = 'Kehadiran';
-        $data['kehadiran'] = $this->Kehadiran_Model->get_by_pegawai($this->session->userdata('id_pegawai'));
+        $data['kehadiran'] = $this->Kehadiran_model->get_by_pegawai($this->session->userdata('id_pegawai'));
         $validStatuses = [
             'HADIR' => 'bg-gradient-success', // hijau
             'TELAT' => 'bg-gradient-warning', // kuning
@@ -114,15 +114,15 @@ class User extends CI_Controller
     public function profile()
     {
         $data['title'] = 'Profile';
-        $data['pegawai'] = $this->Pegawai_Model->get_by_id($this->session->userdata('id_pegawai'));
-        $data['user'] = $this->User_Model->get_by_id_pegawai($this->session->userdata('id_pegawai'));
+        $data['pegawai'] = $this->Pegawai_model->get_by_id($this->session->userdata('id_pegawai'));
+        $data['user'] = $this->User_model->get_by_id_pegawai($this->session->userdata('id_pegawai'));
         $this->load->view('user/profile/index', $data);
     }
 
     public function check_username()
     {
         $username = $this->input->post('username');
-        $exists = $this->User_Model->get_by_username($username);
+        $exists = $this->User_model->get_by_username($username);
 
         // Mengirimkan respons JSON
         echo json_encode(['exists' => $exists ? true : false]);

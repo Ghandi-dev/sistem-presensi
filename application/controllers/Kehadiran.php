@@ -16,9 +16,9 @@ class Kehadiran extends CI_Controller
         //     redirect('auth'); // Ganti dengan URL login yang sesuai
         // }
         // $this->load->model('Aset_Model');
-        $this->load->model('Pegawai_Model');
-        $this->load->model('Kehadiran_Model');
-        $this->load->model('User_Model');
+        $this->load->model('Pegawai_model');
+        $this->load->model('Kehadiran_model');
+        $this->load->model('User_model');
         $this->load->helper('date');
 
     }
@@ -43,14 +43,14 @@ class Kehadiran extends CI_Controller
         $current_date = date('Y-m-d'); // Ambil tanggal sekarang
 
         // Cek apakah user dengan ID tersebut ada dalam database
-        $user = $this->User_Model->get_by_username($username);
+        $user = $this->User_model->get_by_username($username);
         if (!$user) {
             echo json_encode(['status' => 'error', 'message' => 'user tidak ditemukan']);
             return;
         }
 
         // Cek apakah user sudah scan untuk absen masuk hari ini
-        $kehadiran_today = $this->Kehadiran_Model->get_kehadiran_today($user->id_pegawai, $current_date);
+        $kehadiran_today = $this->Kehadiran_model->get_kehadiran_today($user->id_pegawai, $current_date);
 
         if ($kehadiran_today) {
             // Jika sudah absen masuk, lakukan absensi pulang
@@ -59,7 +59,7 @@ class Kehadiran extends CI_Controller
                 $data_kehadiran_pulang = [
                     'waktu_pulang' => $current_time,
                 ];
-                $this->Kehadiran_Model->update($kehadiran_today->id, $data_kehadiran_pulang);
+                $this->Kehadiran_model->update($kehadiran_today->id, $data_kehadiran_pulang);
 
                 echo json_encode(['status' => 'success', 'message' => 'scan pulang berhasil!' . 'jam :' . $current_time]);
             } else {
@@ -73,7 +73,7 @@ class Kehadiran extends CI_Controller
                 'waktu_datang' => $current_time,
                 'status' => 'HADIR',
             ];
-            $this->Kehadiran_Model->insert($data_kehadiran);
+            $this->Kehadiran_model->insert($data_kehadiran);
 
             echo json_encode(['status' => 'success', 'message' => 'scan masuk berhasil! ' . 'jam :' . $current_time]);
         }
@@ -89,7 +89,7 @@ class Kehadiran extends CI_Controller
         $keterangan = $this->input->post('keterangan');
 
         // cek apakah data user sudah ada di hari ini
-        $kehadiran_today = $this->Kehadiran_Model->get_kehadiran_today($id_pegawai, $current_date);
+        $kehadiran_today = $this->Kehadiran_model->get_kehadiran_today($id_pegawai, $current_date);
         if ($kehadiran_today) {
             $this->session->set_flashdata('error', 'data kehadiran pegawai yang dipilih sudah ada untuk hari ini');
             redirect('admin/kehadiran');
@@ -102,7 +102,7 @@ class Kehadiran extends CI_Controller
             'status' => $keterangan,
         ];
 
-        $this->Kehadiran_Model->insert($data_kehadiran);
+        $this->Kehadiran_model->insert($data_kehadiran);
         $this->session->set_flashdata('success', 'berhasil ditambahkan');
         redirect('admin/kehadiran');
 

@@ -6,8 +6,8 @@ class Pegawai extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Pegawai_Model');
-        $this->load->model('User_Model');
+        $this->load->model('Pegawai_model');
+        $this->load->model('User_model');
         $config['upload_path'] = './assets/img/foto/';
         $config['allowed_types'] = 'jpg|png|gif|jpeg';
         $config['max_size'] = 5000; // max 5 MB
@@ -68,7 +68,7 @@ class Pegawai extends CI_Controller
             'qr_code' => $image_name,
         );
 
-        if (!$this->Pegawai_Model->insert($data['pegawai'])) {
+        if (!$this->Pegawai_model->insert($data['pegawai'])) {
             $this->session->set_flashdata('error', 'gagal ditambahkan');
             redirect('admin/pegawai');
             return;
@@ -82,7 +82,7 @@ class Pegawai extends CI_Controller
             'id_pegawai' => $this->db->insert_id(),
         );
 
-        if (!$this->User_Model->insert($data['user'])) {
+        if (!$this->User_model->insert($data['user'])) {
             $this->session->set_flashdata('error', 'gagal ditambahkan');
             redirect('admin/pegawai');
             return;
@@ -122,7 +122,7 @@ class Pegawai extends CI_Controller
             'foto' => $foto,
         );
 
-        if (!$this->Pegawai_Model->update($id, $data['pegawai'])) {
+        if (!$this->Pegawai_model->update($id, $data['pegawai'])) {
             $this->session->set_flashdata('error', 'gagal diedit');
             redirect('admin/pegawai_edit/' . $id);
             return;
@@ -134,7 +134,7 @@ class Pegawai extends CI_Controller
 
     public function delete($id)
     {
-        $this->Pegawai_Model->delete($id);
+        $this->Pegawai_model->delete($id);
         $this->session->set_flashdata('success', 'dihapus');
         redirect('admin/pegawai');
     }

@@ -6,8 +6,8 @@ class Auth extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('User_Model');
-        $this->load->model('Pegawai_Model');
+        $this->load->model('User_model');
+        $this->load->model('Pegawai_model');
     }
 
     public function index()
@@ -23,12 +23,12 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $password = $this->input->post('password');
 
-        $user = $this->User_Model->get_by_username($username);
+        $user = $this->User_model->get_by_username($username);
         if (!$user) {
             $this->session->set_flashdata('error', 'Userame atau password salah!');
             redirect('auth');
         }
-        $pegawai = $this->Pegawai_Model->get_by_id($user->id_pegawai);
+        $pegawai = $this->Pegawai_model->get_by_id($user->id_pegawai);
 
         $data_session = array(
             "id" => $user->id,
