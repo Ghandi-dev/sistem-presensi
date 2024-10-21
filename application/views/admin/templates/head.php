@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title><?php echo $title ?></title>
 <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url() ?>/assets/img/apple-icon.png">
-<link rel="icon" type="image/png" href="<?php echo base_url() ?>assets/img/logo-desa-cigelam.png ?>">
+<link rel="icon" type="image/png" href="<?php echo base_url() ?>assets/img/logo-desa-cigelam.png">
 <!--     Fonts and icons     -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 <!-- Nucleo Icons -->
