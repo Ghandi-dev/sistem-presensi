@@ -69,7 +69,7 @@
                                 </div>
                                 <label>Konfirmasi Password</label>
                                 <div class="input-group mb-3">
-                                    <input type="password" name="confirm_password" class="form-control"
+                                    <input type="password" name="password_confirm" class="form-control"
                                         placeholder="Konfirmasi Password">
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
 <script>
 document.getElementById('submitButton').addEventListener('click', function() {
     // Ambil elemen form berdasarkan ID
-    var form = document.getElementById('assetForm');
+    var form = document.getElementById('formTambahPegawai');
     if (form.checkValidity()) {
         form.submit();
     } else {
