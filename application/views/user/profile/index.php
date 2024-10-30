@@ -95,9 +95,8 @@
                         </div>
                         <div class="card-body p-3 d-flex flex-column justify-content-between">
                             <form id="formUpdatePegawai" role="form text-left"
-                                action="<?php echo base_url('pegawai/update/') . $pegawai->id ?>" method="post"
-                                enctype="multipart/form-data"
-                                oninput='password_confirm.setCustomValidity(password_confirm.value != password.value ? "Passwords tidak sama" : "")'>
+                                action="<?php echo base_url('pegawai/update_by_user/') ?>" method="post"
+                                enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Nama</label>
@@ -108,7 +107,7 @@
                                         <label>Jabatan</label>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" placeholder="Jabatan" name="jabatan"
-                                                value="<?php echo $pegawai->jabatan ?>" required>
+                                                value="<?php echo $pegawai->jabatan ?>" required readonly>
                                         </div>
                                         <label>No Telepon</label>
                                         <div class="input-group mb-3">
@@ -156,14 +155,14 @@
                         </div>
                         <div class="card-body p-3 d-flex flex-column justify-content-between">
                             <form id="formUpdatePassword" role="form text-left"
-                                action="<?php echo base_url('admin/change_password_by_admin/') . $pegawai->id ?>"
-                                method="post" enctype="multipart/form-data"
+                                action="<?php echo base_url('user/change_password_by_user/') ?>" method="post"
+                                enctype="multipart/form-data"
                                 oninput='password_confirm.setCustomValidity(password_confirm.value != new_password.value ? "Passwords tidak sama" : "")'>
                                 <div class="row">
                                     <label>Username</label>
                                     <div class="input-group mb-3">
                                         <input type="text" id="username" name="username" class="form-control"
-                                            placeholder="Username" value="<?php echo $user->username ?>" disabled>
+                                            placeholder="Username" value="<?php echo $user->username ?>" readonly>
                                         <!-- Untuk pesan kesalahan -->
                                     </div>
                                     <div id="usernameFeedback" class="d-block text-danger"></div>
@@ -191,7 +190,33 @@
         <?php $this->load->view('user/templates/footer')?>
     </main>
     <?php $this->load->view('user/templates/script')?>
-    <?php $this->load->view('user/templates/data-table')?>
+    <?php $this->load->view('user/templates/alert')?>
+    <script>
+    document.getElementById('passwordSubmitButton').addEventListener('click', function() {
+        // Ambil elemen form berdasarkan ID
+        var form = document.getElementById('formUpdatePassword');
+
+        if (form.checkValidity()) {
+            form.submit();
+        } else {
+            event.preventDefault(); // Prevent form submission
+            event.stopPropagation(); // Stop propagation
+            form.reportValidity(); // Show validation errors
+        }
+    });
+    document.getElementById('submitButton').addEventListener('click', function() {
+        // Ambil elemen form berdasarkan ID
+        var form = document.getElementById('formUpdatePegawai');
+
+        if (form.checkValidity()) {
+            form.submit();
+        } else {
+            event.preventDefault(); // Prevent form submission
+            event.stopPropagation(); // Stop propagation
+            form.reportValidity(); // Show validation errors
+        }
+    });
+    </script>
 </body>
 
 </html>

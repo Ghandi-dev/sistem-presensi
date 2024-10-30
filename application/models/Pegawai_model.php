@@ -42,7 +42,13 @@ class Pegawai_model extends CI_Model
     public function update($id, $data)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, $data);
+        if ($this->db->update($this->table, $data)) {
+            return true;
+        } else {
+            // Debugging: cek error
+            log_message('error', 'Error updating data: ' . print_r($this->db->error(), true));
+            return false;
+        }
     }
 
     public function delete($id)

@@ -119,6 +119,30 @@ class User extends CI_Controller
         $this->load->view('user/profile/index', $data);
     }
 
+    public function change_password_by_user()
+    {
+        $id = $this->session->userdata('id_pegawai');
+        $user = $this->User_model->get_by_id_pegawai($id);
+        $new_password = $this->input->post('new_password');
+
+        $data = array(
+            'username' => $user->username,
+            'id_pegawai' => $user->id_pegawai,
+            'password' => password_hash($new_password, PASSWORD_BCRYPT),
+            'role' => $user->role,
+        );
+
+        if (!$this->User_model->update($user->id, $data)) {
+            $this->session->set_flashdata('error', 'gagal diubah');
+            redirect('auth');
+            return;
+        }
+
+        $this->session->set_flashdata('success', 'diubah');
+        redirect('auth');
+
+    }
+
     public function check_username()
     {
         $username = $this->input->post('username');

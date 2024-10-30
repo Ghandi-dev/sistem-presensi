@@ -108,20 +108,20 @@ class Admin extends CI_Controller
         $new_password = $this->input->post('new_password');
 
         $data = array(
-            'username' => $user['username'],
-            'id_pegawai' => $user['id_pegawai'],
+            'username' => $user->username,
+            'id_pegawai' => $user->id_pegawai,
             'password' => password_hash($new_password, PASSWORD_BCRYPT),
-            'role' => $user['role'],
+            'role' => $user->role,
         );
 
-        if (!$this->User_model->update($user['id'], $data)) {
+        if (!$this->User_model->update($user->id, $data)) {
             $this->session->set_flashdata('error', 'gagal diubah');
-            redirect('admin/pegawai_edit/' . $user['id_pegawai']);
+            redirect('admin/pegawai_edit/' . $id);
             return;
         }
 
         $this->session->set_flashdata('success', 'diubah');
-        redirect('admin/pegawai_edit/' . $user['id_pegawai']);
+        redirect('admin/pegawai_edit/' . $id);
 
     }
 

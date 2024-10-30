@@ -128,8 +128,51 @@ class Pegawai extends CI_Controller
             return;
         }
 
+        // var_dump($data['pegawai']);
         $this->session->set_flashdata('success', 'berhasil diedit');
         redirect('admin/pegawai_edit/' . $id);
+    }
+
+    public function update_by_user()
+    {
+        $id = $this->session->userdata('id_pegawai');
+        $nama = $this->input->post('nama');
+        $jabatan = $this->input->post('jabatan');
+        $no_telp = $this->input->post('no_telp');
+        $alamat = $this->input->post('alamat');
+        $foto = $_FILES['foto']['name'];
+        $old_foto = $this->input->post('old_foto');
+
+        if ($foto) {
+            if ($this->upload->do_upload('foto')) {
+                $foto = $this->upload->data('file_name');
+                if ($old_foto !== 'default.jpg') {
+                    @unlink('./assets/img/foto/' . $old_foto);
+                }
+            } else {
+                $foto = 'default.jpg';
+            }
+        } else {
+            $foto = $old_foto;
+        }
+
+        $data['pegawai'] = array(
+            'nama' => $nama,
+            'jabatan' => $jabatan,
+            'no_telepon' => $no_telp,
+            'alamat' => $alamat,
+            'foto' => $foto,
+        );
+
+        if (!$this->Pegawai_model->update($id, $data['pegawai'])) {
+            $this->session->set_flashdata('error', 'gagal diedit');
+            redirect('user/profile/');
+            return;
+        }
+
+        // var_dump($data['pegawai']);
+        $this->session->set_flashdata('success', 'berhasil diedit');
+        redirect('user/profile/');
     }
 
     public function delete($id)
