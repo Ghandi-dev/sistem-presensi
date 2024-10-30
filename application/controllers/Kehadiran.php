@@ -25,15 +25,21 @@ class Kehadiran extends CI_Controller
 
     public function index()
     {
-
-    }
-
-    public function scan()
-    {
+        if ($this->session->userdata('role') != "2") {
+            // $this->session->set_flashdata('error', 'Anda tidak memiliki akses untuk halaman ini.');
+            redirect('auth'); // Ganti dengan URL login yang sesuai
+        }
         $data['title'] = 'Scan Kehadiran';
         $this->load->view('admin/kehadiran/scan', $data);
-
+        $this->session->sess_destroy();
     }
+
+    // public function scan()
+    // {
+    //     $data['title'] = 'Scan Kehadiran';
+    //     $this->load->view('admin/kehadiran/scan', $data);
+
+    // }
 
     public function scan_kehadiran()
     {

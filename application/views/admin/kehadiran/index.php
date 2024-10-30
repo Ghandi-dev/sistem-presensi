@@ -28,7 +28,7 @@
                             data-bs-target="#modal-status"><i class="fa fa-plus">&nbsp;</i>Tambah</button>
                         <button id="btnPrint" type="button" class="btn bg-gradient-primary"><i
                                 class="fa fa-print">&nbsp;</i>Print</button>
-                        <a href="<?php echo base_url('kehadiran/scan') ?>">
+                        <a href="<?php echo base_url('kehadiran') ?>">
                             <button type="button" class="btn bg-gradient-dark" data-bs-toggle="modal"
                                 data-bs-target="#modal-scan"><i class="fa fa-qrcode">&nbsp;</i>Scan</button>
                         </a>

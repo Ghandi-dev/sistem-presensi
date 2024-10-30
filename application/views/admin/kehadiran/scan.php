@@ -76,8 +76,13 @@
             <div class="row mt-lg-n12 mt-md-n11 mt-n10">
                 <div class="col-xl-6 col-lg-5 col-md-7 mx-auto">
                     <div class="card z-index-0">
-                        <div class="card-header text-center pt-4 pb-0">
+                        <div
+                            class="card-header d-flex flex-row align-items-center justify-content-between text-center pt-4 pb-0">
                             <h5>Silahkan Scan QR Code Anda</h5>
+                            <a href="<?php echo base_url('admin') ?>">
+                                <div class="btn btn-round bg-gradient-secondary btn-sm w-100">Login Admin
+                                </div>
+                            </a>
                         </div>
                         <div class="card-body py-0">
                             <div id="reader"
@@ -87,9 +92,16 @@
                                 <p id="qr-result"><span id="result">&nbsp;</span></p>
                             </div>
                         </div>
+                        <!-- <div class="card-footer d-flex justify-content-center align-item-center text-center pt-0 pb-4">
+                            <a href="<?php echo base_url('admin') ?>">
+                                <div class="btn btn-round bg-gradient-secondary btn-lg mb-0 w-100 mt-3">Login Admin
+                                </div>
+                            </a>
+                        </div> -->
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
