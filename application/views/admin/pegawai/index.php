@@ -75,7 +75,7 @@
                                     <?php echo $row->no_telepon; ?>
                                 </td>
                                 <td class="d-flex justify-content-center align-items-center text-center gap-2">
-                                    <span><?php echo anchor('admin/pegawai_edit/' . $row->id, '<i class="fa fa-pencil-square-o">&nbsp;</i>', 'class="btn bg-gradient-warning mb-0"'); ?></span>
+                                    <span><?php echo anchor('admin/pegawai_edit/' . $row->id, '<i class="fa fa-pencil-square">&nbsp;</i>', 'class="btn bg-gradient-warning mb-0"'); ?></span>
                                     <span>
                                         <div class="btn bg-gradient-danger mb-0 delete"
                                             data-id="<?php echo $row->id; ?>">
